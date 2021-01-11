@@ -1,4 +1,5 @@
 // https://geekbot.com/developers
+import { SECOND } from "https://deno.land/std@0.83.0/datetime/mod.ts";
 
 export type Question = { id: number; text: string };
 export type User = { id: string; username: string };
@@ -15,6 +16,14 @@ export type Answer = {
   images: any[] | undefined;
 };
 export type Report = { timestamp: number; questions: Answer[]; id: number };
+
+export type GetReportOptions = {
+  question: Question;
+  user: User;
+  standup: Standup;
+  after?: Date;
+  before?: Date;
+};
 
 export class Client {
   private token: string;
@@ -42,22 +51,18 @@ export class Client {
     return await resp.json() as Standup[];
   }
 
-  async getReports(
-    opts: {
-      question: Question;
-      user: User;
-      standup: Standup;
-      from?: Date;
-      until?: Date;
-    },
-  ): Promise<Report[]> {
+  async getReports(opts: GetReportOptions): Promise<Report[]> {
     const query = new URLSearchParams({
       question_ids: `${opts.question.id}`,
       user_id: `${opts.user.id}`,
       standup_id: `${opts.standup.id}`,
-      from: `${opts.from?.getUTCSeconds()}`,
-      until: `${opts.until?.getUTCSeconds()}`,
     });
+    if (opts.after) {
+      query.set("after", `${opts.after.getTime() / SECOND}`);
+    }
+    if (opts.before) {
+      query.set("before", `${opts.before.getTime() / SECOND}`);
+    }
     const resp = await this.request(
       `https://api.geekbot.com/v1/reports/?${query.toString()}`,
     );

@@ -1,9 +1,10 @@
 #!/usr/bin/env deno run --allow-env --allow-net
 
 import log from "./log.ts";
-import Geekbot from "./geekbot.ts";
+import Geekbot, { GetReportOptions } from "./geekbot.ts";
 import { renderResults } from "./output.ts";
 import { cac } from "https://unpkg.com/cac/mod.ts";
+import { DAY } from "https://deno.land/std@0.83.0/datetime/mod.ts";
 
 const cli = cac("geekbot-summary");
 cli.usage("Summary tool for Geekbot reports");
@@ -13,14 +14,14 @@ cli.command(
   "Summarize your reports for a given question. Questions are matched loosely by looking for a matching substring.",
 )
   .example(`${cli.name} distribution-updates robert 'what did you do'`)
-  .option("--from <from>", "Show reports from <from> days ago")
-  .option("--until <until>", "Show reports until <until> days ago")
+  .option("--from <days ago>", "Show reports from <from> days ago")
+  .option("--until <days ago>", "Show reports until <until> days ago")
   .action(
     async (
       targetStandup: string,
       targetUser: string,
       targetQuestion: string,
-      options: { from: number; until: number },
+      options: { from?: number; until?: number },
     ) => {
       const client = new Geekbot(
         Deno.env.get("GEEKBOT_TOKEN") || log.fatal("GEEKBOT_TOKEN is required"),
@@ -44,9 +45,21 @@ cli.command(
         ) || log.fatal(`No question ${targetQuestion} found`);
 
       // List the reports with the requested parameters
-      const reports = await client.getReports({ question, user, standup });
+      const now = new Date();
+      const reportOptions: GetReportOptions = {
+        question,
+        user,
+        standup,
+        after: options.from
+          ? new Date(now.getTime() - (DAY * options.from))
+          : undefined,
+        before: options.until
+          ? new Date(now.getTime() - (DAY * options.until))
+          : undefined,
+      }
+      const reports = await client.getReports(reportOptions);
 
-      renderResults(standup, user, question, reports);
+      renderResults(reports, reportOptions);
     },
   );
 
