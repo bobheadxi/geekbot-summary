@@ -1,5 +1,3 @@
-#!/usr/bin/env deno run --allow-env --allow-net
-
 import log from "./log.ts";
 import Geekbot, { GetReportOptions } from "./geekbot.ts";
 import { renderResults } from "./output.ts";
