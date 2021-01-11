@@ -22,7 +22,7 @@ cli.command(
       options: { from?: number; until?: number },
     ) => {
       const client = new Geekbot(
-        Deno.env.get("GEEKBOT_TOKEN") || log.fatal("GEEKBOT_TOKEN is required"),
+        Deno.env.get("GEEKBOT_TOKEN") || log.fatal("GEEKBOT_TOKEN is required, get your token at https://geekbot.com/dashboard/api-webhooks"),
       );
       const standups = await client.getStandups();
 
