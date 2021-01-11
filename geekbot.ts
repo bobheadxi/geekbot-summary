@@ -43,10 +43,23 @@ export class Client {
   }
 
   async getReports(
-    opts: { question: Question; user: User; standup: Standup },
+    opts: {
+      question: Question;
+      user: User;
+      standup: Standup;
+      from?: Date;
+      until?: Date;
+    },
   ): Promise<Report[]> {
+    const query = new URLSearchParams({
+      question_ids: `${opts.question.id}`,
+      user_id: `${opts.user.id}`,
+      standup_id: `${opts.standup.id}`,
+      from: `${opts.from?.getUTCSeconds()}`,
+      until: `${opts.until?.getUTCSeconds()}`,
+    });
     const resp = await this.request(
-      `https://api.geekbot.com/v1/reports/?question_ids=${opts.question.id}&user_id=${opts.user.id}&standup_id=${opts.standup.id}`,
+      `https://api.geekbot.com/v1/reports/?${query.toString()}`,
     );
     return await resp.json() as Report[];
   }
