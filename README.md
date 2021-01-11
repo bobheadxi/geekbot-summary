@@ -11,6 +11,7 @@ deno install -f --allow-env --allow-net https://raw.githubusercontent.com/bobhea
 Basic usage example:
 
 ```sh
+# Get last 7 days of responses for question that matches 'what did you do'
 geekbot-summary distribution-updates robert 'what did you do' --from 7
 ```
 
