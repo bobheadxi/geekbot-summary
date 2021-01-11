@@ -13,7 +13,7 @@ cli.command(
   "<standup> <user> <question>",
   "Summarize your reports for a given question. Questions are matched loosely by looking for a matching substring.",
 )
-  .example(`${cli.name} distribution-updates robert 'what did you do'`)
+  .example(`${cli.name} distribution-updates robert 'what did you do' --from 7`)
   .option("--from <days ago>", "Show reports from <from> days ago")
   .option("--until <days ago>", "Show reports until <until> days ago")
   .action(
