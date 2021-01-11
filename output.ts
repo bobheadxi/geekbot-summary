@@ -1,12 +1,17 @@
 import { GetReportOptions, Report } from "./geekbot.ts";
 import { SECOND } from "https://deno.land/std@0.83.0/datetime/mod.ts";
 
-export function renderResults(reports: Report[], 
-  { standup, user, question, after, before }: GetReportOptions
+export function renderResults(
+  reports: Report[],
+  { standup, user, question, after, before }: GetReportOptions,
 ) {
   const headerText =
     `${standup.channel} > ${user.username} > '${question.text}'`.toUpperCase();
-  const headerSubtitle = (after || before) ? `\n${after ? `from ${after.toLocaleDateString()} ` : ''}until ${before ? before.toLocaleDateString() : 'now'}` : ''
+  const headerSubtitle = (after || before)
+    ? `\n${after ? `from ${after.toLocaleDateString()} ` : ""}until ${
+      before ? before.toLocaleDateString() : "now"
+    }`
+    : "";
   const headerDivider = "\n" + "=".repeat(headerText.length);
   console.log(
     `%c${headerText}${headerSubtitle}${headerDivider}`,

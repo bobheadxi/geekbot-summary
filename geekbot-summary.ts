@@ -56,7 +56,7 @@ cli.command(
         before: options.until
           ? new Date(now.getTime() - (DAY * options.until))
           : undefined,
-      }
+      };
       const reports = await client.getReports(reportOptions);
 
       renderResults(reports, reportOptions);
