@@ -66,7 +66,8 @@ export class Client {
     const resp = await this.request(
       `https://api.geekbot.com/v1/reports/?${query.toString()}`,
     );
-    return await resp.json() as Report[];
+    const reports = await resp.json() as Report[];
+    return reports.sort((r1, r2) => r1.timestamp - r2.timestamp); 
   }
 }
 
