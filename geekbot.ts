@@ -1,5 +1,5 @@
 // https://geekbot.com/developers
-import { SECOND } from "https://deno.land/std@0.83.0/datetime/mod.ts";
+import { SECOND } from "https://deno.land/std@0.100.0/datetime/mod.ts";
 
 export type Question = { id: number; text: string };
 export type User = { id: string; username: string };

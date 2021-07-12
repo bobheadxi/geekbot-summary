@@ -2,7 +2,7 @@ import log from "./log.ts";
 import Geekbot, { GetReportOptions } from "./geekbot.ts";
 import { renderResults } from "./output.ts";
 import { cac } from "https://unpkg.com/cac/mod.ts";
-import { DAY } from "https://deno.land/std@0.83.0/datetime/mod.ts";
+import { DAY } from "https://deno.land/std@0.100.0/datetime/mod.ts";
 
 const cli = cac("geekbot-summary");
 cli.usage("Summary tool for Geekbot reports");

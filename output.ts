@@ -1,5 +1,5 @@
 import { GetReportOptions, Report } from "./geekbot.ts";
-import { SECOND } from "https://deno.land/std@0.83.0/datetime/mod.ts";
+import { SECOND } from "https://deno.land/std@0.100.0/datetime/mod.ts";
 
 export function renderResults(
   reports: Report[],
